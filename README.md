@@ -1,0 +1,1 @@
+Me playing around with Advent of Code 2022. Neither complete nor nice. 
