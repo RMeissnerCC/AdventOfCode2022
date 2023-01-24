@@ -1,7 +1,7 @@
 def main():
     calories = []
     tmp = []
-    with open("day1") as file:
+    with open("src/day1") as file:
         data = file.readlines()
 
         print(len(data))
