@@ -3,8 +3,6 @@ def main():
     tmp = []
     with open("src/day1") as file:
         data = file.readlines()
-
-        print(len(data))
         for line in data:
             if line == "\n":
                 calories.append(sum(tmp))
@@ -21,9 +19,8 @@ def main():
 
     calories.sort()
 
-    print(calories)
-    print(calories[-3:])
     print(sum(calories[-3:]))
+    print(f"Solution: {max_value} and {sum(calories[-3:])}")
 
 if __name__ == '__main__':
     main()
