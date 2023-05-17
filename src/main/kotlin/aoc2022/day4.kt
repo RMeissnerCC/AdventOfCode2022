@@ -8,6 +8,7 @@ fun main() {
     val assignments = loadData(fileName)
 
     val result = firstTask(assignments)
+    println("First task = $result")
 }
 
 fun firstTask(data: List<String>): Int {
@@ -20,8 +21,6 @@ fun firstTask(data: List<String>): Int {
             elfs.add(elf[0].rangeTo(elf[1]).toList())
         }
         count += if (isSubset(elfs)) 1 else 0
-        println("elfs: $pairs -> $count")
-        println(count)
     }
     return count
 }
