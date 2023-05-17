@@ -25,8 +25,8 @@ fun main() {
     for (group in groupedElfs) {
         var intersection = listOf<String>()
         for (item in group.value) {
-            if (intersection.isEmpty()) intersection = stringToList(item.value)
-            else intersection = intersection.intersect(stringToList(item.value).toSet()).toList()
+            intersection = if (intersection.isEmpty()) stringToList(item.value)
+            else intersection.intersect(stringToList(item.value).toSet()).toList()
         }
         val badge = intersection[0]
         println("intersection: $badge")
