@@ -20,10 +20,12 @@ class Day4KtTest {
         val fileName = "src/main/resources/aoc2022/day4"
         assignments = loadData(fileName)
         assertEquals(534, firstTask(assignments))
+
+        assertEquals(841, secondTask(assignments))
     }
 
     @Test
-    fun testisSubset() {
+    fun testIsSubset() {
         var elfs = mutableListOf(intArrayOf(0, 1, 2).toList(), intArrayOf(3).toList())
         assertEquals(false, isSubset(elfs))
 
@@ -35,6 +37,21 @@ class Day4KtTest {
 
         elfs = mutableListOf(intArrayOf(0, 1, 2).toList(), intArrayOf(0,1,2).toList())
         assertEquals(true, isSubset(elfs))
+
+    }
+    @Test
+    fun testHasOverlap() {
+        var elfs = mutableListOf(intArrayOf(0, 1, 2).toList(), intArrayOf(3).toList())
+        assertEquals(false, hasOverlap(elfs))
+
+        elfs = mutableListOf(intArrayOf(0, 1, 2).toList(), intArrayOf(1).toList())
+        assertEquals(true, hasOverlap(elfs))
+
+        elfs = mutableListOf(intArrayOf(0, 1, 2).toList(), intArrayOf(1, 2, 3).toList())
+        assertEquals(true, hasOverlap(elfs))
+
+        elfs = mutableListOf(intArrayOf(0, 1, 2).toList(), intArrayOf(0,1,2).toList())
+        assertEquals(true, hasOverlap(elfs))
 
     }
 }

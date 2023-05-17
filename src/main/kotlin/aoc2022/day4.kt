@@ -7,27 +7,50 @@ fun main() {
     val fileName = "src/main/resources/aoc2022/day4"
     val assignments = loadData(fileName)
 
-    val result = firstTask(assignments)
+    var result = firstTask(assignments)
     println("First task = $result")
+
+    result = secondTask(assignments)
+    println("Second task = $result")
 }
 
 fun firstTask(data: List<String>): Int {
+    return task(data, ::isSubset)
+}
+
+fun task(data: List<String>, matchFun: (MutableList<List<Int>>) -> Boolean): Int {
     var count = 0
     for (pair in data) {
-        val pairs: List<String> = pair.split(",")
-        val elfs = mutableListOf<List<Int>>()
-        pairs.map { it ->
-            val elf = it.split("-").map { it.toInt() }
-            elfs.add(elf[0].rangeTo(elf[1]).toList())
-        }
-        count += if (isSubset(elfs)) 1 else 0
+        val elfs = convertPairToElfs(pair)
+        count += if (matchFun(elfs)) 1 else 0
     }
     return count
+}
+
+
+fun secondTask(data: List<String>): Int {
+    return task(data, ::hasOverlap)
+}
+
+private fun convertPairToElfs(pair: String): MutableList<List<Int>> {
+    val pairs: List<String> = pair.split(",")
+    val elfs = mutableListOf<List<Int>>()
+    pairs.map { it ->
+        val elf = it.split("-").map { it.toInt() }
+        elfs.add(elf[0].rangeTo(elf[1]).toList())
+    }
+    return elfs
 }
 
 fun isSubset(pairs: MutableList<List<Int>>): Boolean {
     val intersection = pairs[0].intersect(pairs[1].toSet()).toSet()
     return intersection == pairs[1].toSet() || intersection == pairs[0].toSet()
+}
+
+
+fun hasOverlap(pairs: MutableList<List<Int>>): Boolean {
+    val intersection = pairs[0].intersect(pairs[1].toSet())
+    return intersection.isNotEmpty()
 }
 
 
