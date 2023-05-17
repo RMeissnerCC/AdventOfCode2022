@@ -42,6 +42,15 @@ private fun convertPairToElfs(pair: String): MutableList<List<Int>> {
     return elfs
 }
 
+// from todd: https://todd.ginsberg.com/post/advent-of-code/2022/day4/
+
+
+private fun String.asIntRange(): IntRange =
+    substringBefore("-").toInt() .. substringAfter("-").toInt()
+
+private fun String.asRanges(): Pair<IntRange,IntRange> =
+    substringBefore(",").asIntRange() to substringAfter(",").asIntRange()
+
 fun isSubset(pairs: MutableList<List<Int>>): Boolean {
     val intersection = pairs[0].intersect(pairs[1].toSet()).toSet()
     return intersection == pairs[1].toSet() || intersection == pairs[0].toSet()
@@ -49,8 +58,7 @@ fun isSubset(pairs: MutableList<List<Int>>): Boolean {
 
 
 fun hasOverlap(pairs: MutableList<List<Int>>): Boolean {
-    val intersection = pairs[0].intersect(pairs[1].toSet())
-    return intersection.isNotEmpty()
+    return pairs.first().intersect(pairs.last().toSet()).isNotEmpty()
 }
 
 

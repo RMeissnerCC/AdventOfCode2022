@@ -51,8 +51,8 @@ private fun sumOfPriorities(rucksacks: List<String>): Int {
 
 fun convertItemToPriority(wrongItem: String): Int {
     var code = wrongItem.toCharArray().first().code
-    if (code >= 97) code -= 96
-    else code -= 65 - 26 - 1
+    code -= if (code >= 97) 96
+    else 65 - 26 - 1
     return code
 }
 
