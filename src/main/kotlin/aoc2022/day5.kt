@@ -14,6 +14,7 @@ fun main() {
     val assignments = loadData(fileName)
     val output = day5Task1(assignments)
     println("Final order of crates: $output")
+    println("Final order of crates: ${day5TaskTwo(assignments)}")
 }
 
 fun day5Task1(assignments: List<String>): String {
@@ -24,17 +25,29 @@ fun day5Task1(assignments: List<String>): String {
 
     for (move in moveInstructions) {
         warehouse = warehouse.move(move.first, move.second, move.third)
-        println(warehouse)
     }
 
-    println(warehouse)
+    // receive top crates, i.e., the crates at the beginning of each list
+    return warehouse.getTopCrates()
+}
+
+fun day5TaskTwo(assignments: List<String>): String {
+    // parse crate setup
+    var warehouse = parseWarehouseSetup(assignments)
+
+    val moveInstructions: MoveInstruction = parseMoveInstruction(assignments)
+
+    for (move in moveInstructions) {
+        warehouse = warehouse.moveGroup(move.first, move.second, move.third)
+    }
+
     // receive top crates, i.e., the crates at the beginning of each list
     return warehouse.getTopCrates()
 }
 
 fun parseWarehouseSetup(crates: List<String>): Map<Int, String> {
     val warehouse = mutableMapOf(1 to "", 2 to "", 3 to "", 4 to "", 5 to "", 6 to "", 7 to "", 8 to "", 9 to "")
-    var indexAfterCrates = crates.indexOf(" 1   2   3   4   5   6   7   8   9")
+    val indexAfterCrates = crates.indexOf(" 1   2   3   4   5   6   7   8   9")
     val cleanCrates = crates.slice(0 until if (indexAfterCrates > 0) indexAfterCrates else crates.size)
 
     for (crateRow in cleanCrates) {
@@ -79,6 +92,14 @@ fun Warehouse.move(number: Int, from: Int, to: Int): Warehouse {
         newWarehouse[from] = newWarehouse[from]!!.slice(1 until newWarehouse[from]!!.length)
         newWarehouse[to] = movedCrate + newWarehouse[to]
     }
+    return newWarehouse
+}
+
+fun Warehouse.moveGroup(number: Int, from: Int, to: Int): Warehouse {
+    val newWarehouse = this.toMutableMap()
+    val movedCrates: Crate = newWarehouse[from]!!.slice(0 until number).toString()
+    newWarehouse[from] = newWarehouse[from]!!.slice(number until newWarehouse[from]!!.length)
+    newWarehouse[to] = movedCrates + newWarehouse[to]
     return newWarehouse
 }
 
