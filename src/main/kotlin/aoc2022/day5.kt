@@ -24,23 +24,26 @@ fun day5Task1(assignments: List<String>): String {
 
     for (move in moveInstructions) {
         warehouse = warehouse.move(move.first, move.second, move.third)
+        println(warehouse)
     }
+
+    println(warehouse)
     // receive top crates, i.e., the crates at the beginning of each list
     return warehouse.getTopCrates()
 }
 
-fun parseWarehouseSetup(assignments: List<String>): Map<Int, String> {
+fun parseWarehouseSetup(crates: List<String>): Map<Int, String> {
     val warehouse = mutableMapOf(1 to "", 2 to "", 3 to "", 4 to "", 5 to "", 6 to "", 7 to "", 8 to "", 9 to "")
-    for (line in assignments) {
-        if (line == " 1   2   3   4   5   6   7   8   9") break
-        val match = warehouseRegex.findAll(line).toList()
+    var indexAfterCrates = crates.indexOf(" 1   2   3   4   5   6   7   8   9")
+    val cleanCrates = crates.slice(0 until if (indexAfterCrates > 0) indexAfterCrates else crates.size)
+
+    for (crateRow in cleanCrates) {
+        val match = warehouseRegex.findAll(crateRow).toList()
         for (column in warehouse.keys) {
             if (match.size >= column) {
                 val currentGroup = match[column - 1].groups[0]?.value?.get(1).toString()
-                println(currentGroup)
                 if (currentGroup != " ") {
-                    warehouse[column] = currentGroup + warehouse[column]
-                    println(warehouse)
+                    warehouse[column] = warehouse[column] + currentGroup
                 }
             }
 
@@ -72,7 +75,7 @@ fun parseMoveInstruction(
 fun Warehouse.move(number: Int, from: Int, to: Int): Warehouse {
     val newWarehouse = this.toMutableMap()
     for (count in 1..number) {
-        val movedCrate: Crate = newWarehouse[from]!![0].toString()
+        val movedCrate: Crate = newWarehouse[from]!!.first().toString()
         newWarehouse[from] = newWarehouse[from]!!.slice(1 until newWarehouse[from]!!.length)
         newWarehouse[to] = movedCrate + newWarehouse[to]
     }

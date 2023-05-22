@@ -43,7 +43,7 @@ class Day5KtTest {
 
     @Test
     fun testParseWarehouseSetup() {
-        val moveInstructionRaw = listOf("[G] [Z] [C] [H] [C] [R] [H] [P] [D]", "        [F] [Q]         [Q]")
+        val moveInstructionRaw = listOf("        [F] [Q]         [Q]","[G] [Z] [C] [H] [C] [R] [H] [P] [D]")
         val warehouse =
             mapOf(1 to "G", 2 to "Z", 3 to "FC", 4 to "QH", 5 to "C", 6 to "R", 7 to "QH", 8 to "P", 9 to "D")
         assertEquals(
@@ -51,12 +51,26 @@ class Day5KtTest {
             parseWarehouseSetup(moveInstructionRaw)
         )
 
+        // Complete data set
+        val fileName = "src/main/resources/aoc2022/day5"
+        val assignments = loadData(fileName)
+        val rawWarehouse = parseWarehouseSetup(assignments)
+        assert(rawWarehouse[1]!!.length == 7)
+        assert(rawWarehouse[8]!!.length == 3)
+
+        var allCrates = ""
+        for (column in rawWarehouse)
+        {
+            allCrates += column.value
+        }
+        assertEquals(56, allCrates.length)
 
     }
 
     @Test
     fun testFirstTask() {
         val resultIsNot = "SFPBQDGZV"
+        val resultIs = "WCZTHTMPS"
 
         val fileName = "src/main/resources/aoc2022/day5"
         val assignments = loadData(fileName)
@@ -64,6 +78,10 @@ class Day5KtTest {
             resultIsNot,
             day5Task1(assignments)
         )
+
+        assertEquals(
+            resultIs,
+            day5Task1(assignments))
 
     }
 
