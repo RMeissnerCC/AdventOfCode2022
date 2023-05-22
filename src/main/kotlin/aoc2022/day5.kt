@@ -47,8 +47,8 @@ fun day5TaskTwo(assignments: List<String>): String {
 
 fun parseWarehouseSetup(crates: List<String>): Map<Int, String> {
     val warehouse = mutableMapOf(1 to "", 2 to "", 3 to "", 4 to "", 5 to "", 6 to "", 7 to "", 8 to "", 9 to "")
-    val indexAfterCrates = crates.indexOf(" 1   2   3   4   5   6   7   8   9")
-    val cleanCrates = crates.slice(0 until if (indexAfterCrates > 0) indexAfterCrates else crates.size)
+
+    val cleanCrates = crates.takeWhile { it.contains("[") }
 
     for (crateRow in cleanCrates) {
         val match = warehouseRegex.findAll(crateRow).toList()
@@ -97,16 +97,11 @@ fun Warehouse.move(number: Int, from: Int, to: Int): Warehouse {
 
 fun Warehouse.moveGroup(number: Int, from: Int, to: Int): Warehouse {
     val newWarehouse = this.toMutableMap()
-    val movedCrates: Crate = newWarehouse[from]!!.slice(0 until number).toString()
-    newWarehouse[from] = newWarehouse[from]!!.slice(number until newWarehouse[from]!!.length)
-    newWarehouse[to] = movedCrates + newWarehouse[to]
+    val movedCrates: Crate = newWarehouse[from]!!.slice(0 until number)
+    newWarehouse[from]!!.slice(number until newWarehouse[from]!!.length).also { newWarehouse[from] = it }
+    (movedCrates + newWarehouse[to]).also { newWarehouse[to] = it }
     return newWarehouse
 }
 
-fun Warehouse.getTopCrates(): String {
-    var output = ""
-    for (key in this) {
-        output += key.value.first()
-    }
-    return output
-}
+fun Warehouse.getTopCrates(): String =
+    map { it.value.first() }.joinToString("")
