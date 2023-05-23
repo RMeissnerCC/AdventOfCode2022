@@ -5,18 +5,27 @@ import org.junit.jupiter.api.Test
 import utils.loadData
 
 class Day7KtTest {
+    private val fileName = "src/test/resources/day7"
+    private val commands = loadData(fileName)
     @Test
     fun testFirstTask() {
         assertEquals(0, day7First(listOf()))
+        assertEquals(95437, day7First(commands))
+    }
+    @Test
+    fun testCalculateSizes() {
+
+        val fileSystem = parseFileSystem(commands)
+        println(fileSystem)
+        assertEquals(48381165, fileSystem.size)
+        assertEquals(14848514, fileSystem.getChildren()[0].size)
+        assertEquals(94853, fileSystem.getChildren()[2].size)
     }
 
     @Test
     fun testParseFileSystem() {
-        val fileName = "src/test/resources/day7"
-        val commands = loadData(fileName)
         val fileSystem = parseFileSystem(commands)
-        assertEquals(0, fileSystem.size)
-        println(fileSystem.getChildren())
+        assertEquals(48381165, fileSystem.size)
         assertEquals(4, fileSystem.getChildren().size)
 
 
@@ -24,12 +33,7 @@ class Day7KtTest {
 
     @Test
     fun testGetSmallDirectories() {
-        val hot = TreeNode("Hot")
-        val cold = TreeNode("Cold")
-
-        val root = TreeNode("Beverages")
-        root.add(hot)
-        root.add(cold)
-        assertEquals(0, getSmallDirectories(root).size)
+        val fileSystem = parseFileSystem(commands)
+        assertEquals(2, getSmallDirectories(fileSystem).size)
     }
 }
