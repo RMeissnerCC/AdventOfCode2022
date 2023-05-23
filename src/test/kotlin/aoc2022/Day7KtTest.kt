@@ -17,7 +17,7 @@ class Day7KtTest {
         val fileSystem = parseFileSystem(commands)
         assertEquals(0, fileSystem.size)
         println(fileSystem.getChildren())
-        assertEquals(1, fileSystem.getChildren().size)
+        assertEquals(4, fileSystem.getChildren().size)
 
 
     }

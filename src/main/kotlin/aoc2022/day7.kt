@@ -57,8 +57,7 @@ fun day7First(commands: List<String>): Int {
 }
 
 fun parseFileSystem(commands: List<String>): TreeNode {
-    var fileSystem = TreeNode("/")
-    var currentDirectory = "/"
+    val fileSystem = TreeNode("/")
     var currentNode = fileSystem;
 
     for (line in commands) {
@@ -71,15 +70,11 @@ fun parseFileSystem(commands: List<String>): TreeNode {
                     else -> currentNode.addChild(commandLine.substringAfter(" ") + "/")
                 }
             }
-        } else {
-            println("Printout: $line")
-            if (line.substringBefore(" ") != "dir") {
-                // file found
-                println("File found: $line.")
+        } else if (line.substringBefore(" ") != "dir") {
+            val file = currentNode.addChild(line.substringAfter(" "))
+            file.size = line.substringBefore(" ").toInt()
 
-            }
         }
-        println("Current dir: $currentDirectory and CurrentNode: $currentNode")
     }
     return fileSystem
 
