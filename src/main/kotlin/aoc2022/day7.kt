@@ -27,11 +27,7 @@ class TreeNode(val path: String) {
         return s
     }
 
-    var size: Int
-        get() = 0
-        set(value) {
-            value // parses the string and assigns values to other properties
-        }
+    var size: Int = 0
 
     fun getChildren() = children
 }
@@ -39,7 +35,7 @@ class TreeNode(val path: String) {
 fun main() {
     val fileName = "src/main/resources/aoc2022/day7"
     val commands = loadData(fileName)
-    var output = day7First(commands)
+    val output = day7First(commands)
     println(output)
 }
 // use a tree like structure?
@@ -50,23 +46,22 @@ fun day7First(commands: List<String>): Int {
 
     // TODO: Better use FileTreeWalk?!
 
-    var fileSystem = parseFileSystem(commands)
-
-    var smallDirectories = getSmallDirectories(fileSystem)
+    val fileSystem = parseFileSystem(commands)
+    val smallDirectories = getSmallDirectories(fileSystem)
     return smallDirectories.totalSize()
 }
 
 fun parseFileSystem(commands: List<String>): TreeNode {
     val fileSystem = TreeNode("/")
-    var currentNode = fileSystem;
+    var currentNode = fileSystem
 
     for (line in commands) {
         if (line.startsWith("\$")) {
             val commandLine = line.substringAfter("\$ ")
             if (commandLine.contains("cd")) {
                 currentNode = when (commandLine.substringAfter(" ")) {
-                    "/" -> fileSystem;
-                    ".." -> (if (currentNode.parent == null) fileSystem else currentNode.parent)!!;
+                    "/" -> fileSystem
+                    ".." -> (if (currentNode.parent == null) fileSystem else currentNode.parent)!!
                     else -> currentNode.addChild(commandLine.substringAfter(" ") + "/")
                 }
             }
