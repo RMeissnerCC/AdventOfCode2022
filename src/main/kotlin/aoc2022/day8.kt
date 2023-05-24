@@ -6,40 +6,48 @@ import utils.loadData
 // how do I brute force this
 //  how would it scale?
 
-typealias Trees = List<List<Int>>
+typealias TreeRow = List<Int>
+typealias Forest = List<TreeRow>
 
 fun main() {
     val fileName = "src/main/resources/aoc2022/day8"
-    val trees = loadData(fileName)
+    val textTrees = loadData(fileName)
+    val trees = parseTrees(textTrees)
     day8First(trees).also { println(it) }
 }
 
-fun day8First(input: List<String>): Int {
-    return visibleFromLeft(input) + visibleFromRight(input)
+fun parseTrees(textTrees: List<String>): Forest {
+    return textTrees.map { it -> it.toCharArray().map { it.toString().toInt() } }
 }
 
-fun visibleFromLeft(input: List<String>): Int {
-    return input.sumOf { highestTree(it.toCharArray().map { it.toString().toInt() }) }
+fun day8First(input: Forest): Int {
+    val forest = visibleFromLeft(input) + visibleFromRight(input)
+    return forest.sumOf { it -> it.sumOf { it } }
 }
 
-fun visibleFromRight(input: List<String>): Int {
+fun visibleFromLeft(input: Forest): Forest {
+    return input.map { highestTree(it) }
+}
+
+fun visibleFromRight(input: Forest): Forest {
     return visibleFromLeft(input.map { it.reversed() })
 }
 
-fun highestTree(trees: List<Int>): Int {
-    var visible = 1
+fun highestTree(trees: TreeRow): TreeRow {
     var highestTree = trees.first()
     var index = 0
+    val visibleTrees = IntArray(trees.size) { 0 }.toMutableList()
+    visibleTrees[0] = 1
 
     do {
         val newIndex = trees.slice(index + 1 until trees.size).indexOfFirst { it > highestTree }
         if (newIndex != -1) {
             index += newIndex + 1
             highestTree = trees[index]
-            visible += 1
+            visibleTrees[index] = 1
         }
     } while (newIndex != -1)
 
-    return visible
+    return visibleTrees
 
 }

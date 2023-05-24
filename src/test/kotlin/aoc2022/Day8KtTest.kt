@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import utils.loadData
 
 class Day8KtTest {
-    private val trees = loadData("src/test/resources/day8")
+    private val trees = parseTrees(loadData("src/test/resources/day8"))
 
     @Test
     fun testFirstTask() {
@@ -16,22 +16,25 @@ class Day8KtTest {
 
     @Test
     fun testVisibleFromLeft() {
-        var treeRow = "30373"
-        assertEquals(2, visibleFromLeft(listOf(treeRow)))
+        var treeRow = parseTrees(listOf("30373"))
+        assertEquals(2, visibleFromLeft(treeRow).sumOf { it -> it.sumOf { it } })
 
-        treeRow = "65332"
-        assertEquals(1, visibleFromLeft(listOf(treeRow)))
-        treeRow = "33549"
-        assertEquals(3, visibleFromLeft(listOf(treeRow)))
+        treeRow = parseTrees(listOf("65332"))
+        assertEquals(1, visibleFromLeft(treeRow).sumOf { it -> it.sumOf { it } })
+
+        treeRow = parseTrees(listOf("33549"))
+        assertEquals(3, visibleFromLeft(treeRow).sumOf { it -> it.sumOf { it } })
     }
+
     @Test
     fun testVisibleFromRight() {
-        var treeRow = "30373"
-        assertEquals(2, visibleFromRight(listOf(treeRow)))
+        var treeRow = parseTrees(listOf("30373"))
+        assertEquals(2, visibleFromRight(treeRow).sumOf { it -> it.sumOf { it } })
 
-        treeRow = "65332"
-        assertEquals(4, visibleFromRight(listOf(treeRow)))
-        treeRow = "33549"
-        assertEquals(1, visibleFromRight(listOf(treeRow)))
+        treeRow = parseTrees(listOf("65332"))
+        assertEquals(4, visibleFromRight(treeRow).sumOf { it -> it.sumOf { it } })
+
+        treeRow = parseTrees(listOf("33549"))
+        assertEquals(1, visibleFromRight(treeRow).sumOf { it -> it.sumOf { it } })
     }
 }
