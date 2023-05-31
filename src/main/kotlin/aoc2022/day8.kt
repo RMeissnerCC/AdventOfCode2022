@@ -20,9 +20,35 @@ fun parseTrees(textTrees: List<String>): Forest {
     return textTrees.map { it -> it.toCharArray().map { it.toString().toInt() } }
 }
 
-fun day8First(input: Forest): Int {
-    val forest = visibleFromLeft(input) + visibleFromRight(input)
-    return forest.sumOf { it -> it.sumOf { it } }
+fun day8First(forest: Forest): Int {
+    val visibleTree = buildVisibleTrees(forest)
+    return visibleTree.flatten().sumOf { if (it) 1.0 else 0.0 }.toInt()
+}
+
+private fun buildVisibleTrees(forest: Forest): MutableList<MutableList<Boolean>> {
+    val visibleTree = Array(forest.size) { Array(forest.size) { false }.toMutableList() }.toMutableList()
+    forest.forEachIndexed { row, ints ->
+        for (column in ints.indices) {
+
+            var treeVisible = isLeftMax(forest, row, column)
+            if (!treeVisible) {
+                treeVisible = isRightMax(forest, row, column)
+            }
+            visibleTree[row][column] = treeVisible
+            println("Tree at row $row and column $column: ${ints[column]}. Is max? $treeVisible")
+        }
+    }
+    return visibleTree
+}
+
+fun isRightMax(forest: Forest, row: Int, column: Int): Boolean {
+    return isLeftMax(forest.map { it.reversed() }, row, (forest.size - 1) - column)
+
+}
+
+fun isLeftMax(forest: Forest, row: Int, column: Int): Boolean {
+    return column == 0 || forest[row].slice(0 until column).max() < forest[row][column]
+
 }
 
 fun visibleFromLeft(input: Forest): Forest {

@@ -19,6 +19,10 @@ class Day8KtTest {
         var treeRow = parseTrees(listOf("30373"))
         assertEquals(2, visibleFromLeft(treeRow).sumOf { it -> it.sumOf { it } })
 
+        val isMax =
+            List(treeRow[0].size) { column -> isLeftMax(treeRow, 0, column) }.sumOf { if (it) 1.0 else 0.0 }.toInt()
+        assertEquals(2, isMax)
+
         treeRow = parseTrees(listOf("65332"))
         assertEquals(1, visibleFromLeft(treeRow).sumOf { it -> it.sumOf { it } })
 
@@ -30,6 +34,9 @@ class Day8KtTest {
     fun testVisibleFromRight() {
         var treeRow = parseTrees(listOf("30373"))
         assertEquals(2, visibleFromRight(treeRow).sumOf { it -> it.sumOf { it } })
+        val isMax =
+            List(treeRow[0].size) { column -> isRightMax(treeRow, 0, column) }.sumOf { if (it) 1.0 else 0.0 }.toInt()
+        assertEquals(2, isMax)
 
         treeRow = parseTrees(listOf("65332"))
         assertEquals(4, visibleFromRight(treeRow).sumOf { it -> it.sumOf { it } })
