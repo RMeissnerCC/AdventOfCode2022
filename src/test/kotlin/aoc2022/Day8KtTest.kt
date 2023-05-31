@@ -55,4 +55,21 @@ class Day8KtTest {
             List(treeRow[0].size) { column -> isRightMax(treeRow, 0, column) }.sumOf { if (it) 1.0 else 0.0 }.toInt()
         assertEquals(5, isMax)
     }
+
+    @Test
+    fun testTransposeMatrix() {
+
+        var treeRow = parseTrees(listOf("30373"))
+        var transposed = transposeMatrix(treeRow)
+        assertEquals(5, transposed.size)
+        assertEquals(1, transposed[0].size)
+        assertEquals(3, transposed[4][0])
+
+
+        treeRow = parseTrees(listOf("30373", "54123"))
+        transposed = transposeMatrix(treeRow)
+        assertEquals(5, transposed.size)
+        assertEquals(2, transposed[0].size)
+        assertEquals(2, transposed[3][1])
+    }
 }

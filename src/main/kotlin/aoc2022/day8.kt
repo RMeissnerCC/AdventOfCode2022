@@ -25,6 +25,18 @@ fun day8First(forest: Forest): Int {
     return visibleTree.flatten().sumOf { if (it) 1.0 else 0.0 }.toInt()
 }
 
+fun transposeMatrix(matrix: Forest): Forest {
+    val m = matrix.size
+    val n = matrix[0].size
+    val transposedMatrix = Array(n) { IntArray(m).toMutableList() }.toMutableList()
+    for (x in 0 until n) {
+        for (y in 0 until m) {
+            transposedMatrix[x][y] = matrix[y][x]
+        }
+    }
+    return transposedMatrix
+}
+
 private fun buildVisibleTrees(forest: Forest): MutableList<MutableList<Boolean>> {
     val visibleTree = Array(forest.size) { Array(forest.size) { false }.toMutableList() }.toMutableList()
     forest.forEachIndexed { row, ints ->
