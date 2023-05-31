@@ -28,6 +28,8 @@ fun day8First(forest: Forest): Int {
 fun transposeMatrix(matrix: Forest): Forest {
     // source: https://stackoverflow.com/questions/26197466/transposing-a-matrix-from-a-2d-array
     val m = matrix.size
+    if (m == 0) return matrix
+
     val n = matrix[0].size
     val transposedMatrix = Array(n) { IntArray(m).toMutableList() }.toMutableList()
     for (x in 0 until n) {
@@ -35,10 +37,13 @@ fun transposeMatrix(matrix: Forest): Forest {
             transposedMatrix[x][y] = matrix[y][x]
         }
     }
+    println(matrix)
+    println(transposedMatrix)
     return transposedMatrix
 }
 
 private fun buildVisibleTrees(forest: Forest): MutableList<MutableList<Boolean>> {
+    val transposedForest = transposeMatrix(forest)
     val visibleTree = Array(forest.size) { Array(forest.size) { false }.toMutableList() }.toMutableList()
     forest.forEachIndexed { row, ints ->
         for (column in ints.indices) {
@@ -47,7 +52,13 @@ private fun buildVisibleTrees(forest: Forest): MutableList<MutableList<Boolean>>
             if (!treeVisible) {
                 treeVisible = isRightMax(forest, row, column)
             }
-            // TODO kotlin transpose 2d array
+            if (!treeVisible) {
+                // TODO: Check, whether switching the indices here is correct!
+                treeVisible = isLeftMax(forest, column, row)
+            }
+            if (!treeVisible) {
+                treeVisible = isRightMax(forest, column, row)
+            }
             visibleTree[row][column] = treeVisible
         }
     }
