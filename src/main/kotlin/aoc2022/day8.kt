@@ -26,6 +26,7 @@ fun day8First(forest: Forest): Int {
 }
 
 fun transposeMatrix(matrix: Forest): Forest {
+    // source: https://stackoverflow.com/questions/26197466/transposing-a-matrix-from-a-2d-array
     val m = matrix.size
     val n = matrix[0].size
     val transposedMatrix = Array(n) { IntArray(m).toMutableList() }.toMutableList()
