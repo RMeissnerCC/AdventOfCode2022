@@ -34,15 +34,16 @@ private fun buildVisibleTrees(forest: Forest): MutableList<MutableList<Boolean>>
             if (!treeVisible) {
                 treeVisible = isRightMax(forest, row, column)
             }
+            // TODO kotlin transpose 2d array
             visibleTree[row][column] = treeVisible
-            println("Tree at row $row and column $column: ${ints[column]}. Is max? $treeVisible")
         }
     }
+    println("Is max? $visibleTree")
     return visibleTree
 }
 
 fun isRightMax(forest: Forest, row: Int, column: Int): Boolean {
-    return isLeftMax(forest.map { it.reversed() }, row, (forest.size - 1) - column)
+    return isLeftMax(forest.map { it.reversed() }, row, (forest[row].size - 1) - column)
 
 }
 
