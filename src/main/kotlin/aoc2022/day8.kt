@@ -25,6 +25,7 @@ fun day8First(forest: Forest): Int {
     return visibleTree.flatten().sumOf { if (it) 1.0 else 0.0 }.toInt()
 }
 
+
 fun transposeMatrix(matrix: Forest): Forest {
     // source: https://stackoverflow.com/questions/26197466/transposing-a-matrix-from-a-2d-array
     val m = matrix.size
@@ -53,11 +54,10 @@ private fun buildVisibleTrees(forest: Forest): MutableList<MutableList<Boolean>>
                 treeVisible = isRightMax(forest, row, column)
             }
             if (!treeVisible) {
-                // TODO: Check, whether switching the indices here is correct!
-                treeVisible = isLeftMax(forest, column, row)
+                treeVisible = isLeftMax(transposedForest, column, row)
             }
             if (!treeVisible) {
-                treeVisible = isRightMax(forest, column, row)
+                treeVisible = isRightMax(transposedForest, column, row)
             }
             visibleTree[row][column] = treeVisible
         }
@@ -76,29 +76,3 @@ fun isLeftMax(forest: Forest, row: Int, column: Int): Boolean {
 
 }
 
-fun visibleFromLeft(input: Forest): Forest {
-    return input.map { highestTree(it) }
-}
-
-fun visibleFromRight(input: Forest): Forest {
-    return visibleFromLeft(input.map { it.reversed() })
-}
-
-fun highestTree(trees: TreeRow): TreeRow {
-    var highestTree = trees.first()
-    var index = 0
-    val visibleTrees = IntArray(trees.size) { 0 }.toMutableList()
-    visibleTrees[0] = 1
-
-    do {
-        val newIndex = trees.slice(index + 1 until trees.size).indexOfFirst { it > highestTree }
-        if (newIndex != -1) {
-            index += newIndex + 1
-            highestTree = trees[index]
-            visibleTrees[index] = 1
-        }
-    } while (newIndex != -1)
-
-    return visibleTrees
-
-}
