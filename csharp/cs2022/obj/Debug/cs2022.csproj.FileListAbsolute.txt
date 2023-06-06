@@ -1,0 +1,6 @@
+/home/rcc/Projects/Learning/AdventOfCode2022/csharp/cs2022/bin/Debug/cs2022.exe
+/home/rcc/Projects/Learning/AdventOfCode2022/csharp/cs2022/bin/Debug/cs2022.pdb
+/home/rcc/Projects/Learning/AdventOfCode2022/csharp/cs2022/obj/Debug/cs2022.csproj.AssemblyReference.cache
+/home/rcc/Projects/Learning/AdventOfCode2022/csharp/cs2022/obj/Debug/cs2022.csproj.CoreCompileInputs.cache
+/home/rcc/Projects/Learning/AdventOfCode2022/csharp/cs2022/obj/Debug/cs2022.exe
+/home/rcc/Projects/Learning/AdventOfCode2022/csharp/cs2022/obj/Debug/cs2022.pdb
