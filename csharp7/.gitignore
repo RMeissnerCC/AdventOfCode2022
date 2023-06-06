@@ -1,0 +1,5 @@
+csharp7/bin
+csharp7/obj
+csharp7_test/bin
+csharp7_test/obj
+*.hprof
